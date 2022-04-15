@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function FavoritesScreen() {
+export function RankingScreen() {
   return (
     <View>
-      <Text>FavoritesScreen</Text>
+      <Text>RankingScreen</Text>
     </View>
   )
 }
