@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import {UserGuestScreen} from "./UserGuestScreen";
 import {UserLoggedScreen} from "./UserLoggedScreen";
+import { LoadingModal } from "../../components";
 
 export function AccountScreen () {
     const [hasLogged, setHasLogged] = useState(null);
@@ -12,5 +13,10 @@ export function AccountScreen () {
             setHasLogged(user ? true : false);
         })
     },[]);
+
+    if (hasLogged === null) {
+        return <LoadingModal show={true} text="Cargando..."/>
+    }
+
     return hasLogged ? <UserLoggedScreen/>:<UserGuestScreen/>;
 }
