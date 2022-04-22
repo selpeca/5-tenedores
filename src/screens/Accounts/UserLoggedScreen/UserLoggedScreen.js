@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
-import { InfoUser } from '../../../components/Account/InfoUser/InfoUser'
+import { Button } from 'react-native-elements'
 import { getAuth, signOut } from 'firebase/auth'
 import { LoadingModal } from '../../../components'
+import { InfoUser, AccountOptions } from '../../../components/Account'
 import { styles } from './UserLoggedScreen.styles'
-import { Button } from 'react-native-elements'
 
 export function UserLoggedScreen() {
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
+  const [_, setReload] = useState(false);
+
+  const onReload = () => setReload((prevState) => !prevState)
   
   const logout = async () =>{
     const auth = getAuth();
@@ -17,6 +20,7 @@ export function UserLoggedScreen() {
   return (
     <View>
       <InfoUser setLoading={setLoading} setLoadingText={setLoadingText} />
+      <AccountOptions onReload={onReload} />
       <Button
         title="Cerrar sesión"
         buttonStyle={styles.btnStyle}

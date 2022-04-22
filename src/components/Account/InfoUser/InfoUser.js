@@ -8,7 +8,7 @@ import { styles } from './InfoUser.styles'
 
 export function InfoUser(props) {
     const { setLoading, setLoadingText } = props
-    const { uid, photoURL, diplayName, email } = getAuth().currentUser;
+    const { uid, photoURL, displayName, email } = getAuth().currentUser;
     const [avatar, setAvatar] = useState(photoURL)
 
     const changeAvatar = async () => {
@@ -59,7 +59,7 @@ export function InfoUser(props) {
                 <Avatar.Accessory size={24} onPress={changeAvatar}/>
             </Avatar>
             <View>
-                <Text style={styles.displayName}>{ diplayName ?? "Anónimo" }</Text>
+                <Text style={styles.displayName}>{ displayName ?? "Anónimo" }</Text>
                 <Text>{email}</Text>
             </View>
         </View>
