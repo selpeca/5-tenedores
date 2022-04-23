@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { Icon, ListItem, Text } from 'react-native-elements'
 import { Modal } from '../Shared'
 import { ChangeDisplayNameForm } from './ChangeDisplayNameForm'
+import { ChangeMailForm } from './ChangeMailForm'
 
 export function AccountOptions(props) {
     const { onReload }= props
@@ -14,7 +15,7 @@ export function AccountOptions(props) {
             setRenderComponent(<ChangeDisplayNameForm onCloseOpenModal={onCloseOpenModal} onReload={onReload} />);
         }
         if (key === "email") {
-            setRenderComponent(<Text>Cambiando email</Text>);
+            setRenderComponent(<ChangeMailForm onCloseOpenModal={onCloseOpenModal} onReload={onReload} />);
         }
         if (key === "password") {
             setRenderComponent(<Text>Cambiando pass</Text>);
