@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import { Dimensions, ScrollView } from 'react-native'
 import {
     doc,
     onSnapshot,
@@ -10,6 +10,9 @@ import {
 } from 'firebase/firestore'
 import { styles } from './RestaurantScreen.styles'
 import { db } from '../../../utils/firebase'
+import { Carrousel, Loading } from '../../../components/Shared'
+
+const {width, height } = Dimensions.get('window')
 
 export function RestaurantScreen(props) {
     const { route } = props;
@@ -21,9 +24,11 @@ export function RestaurantScreen(props) {
         })
     }, [route.params.id])
     
+    if (!restaurant) return <Loading show text="Cargando restaurantes" />;
+    
     return (
-        <View>
-            <Text>RestaurantScreen</Text>
-        </View>
+        <ScrollView style={styles.content}>
+            <Carrousel arrayImages={restaurant.images} width={width} height={(height - (height * 0.7))} />
+        </ScrollView>
     )
 }
