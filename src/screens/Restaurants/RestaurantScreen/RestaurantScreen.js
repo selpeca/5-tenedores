@@ -1,40 +1,29 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { Icon } from "react-native-elements";
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { screen } from "../../../utils"
-import { styles } from "./RestaurantScreen.styles";
+import React, { useEffect, useState } from 'react'
+import { View, Text } from 'react-native'
+import {
+    doc,
+    onSnapshot,
+    collection,
+    query,
+    where,
+    orderBy
+} from 'firebase/firestore'
+import { styles } from './RestaurantScreen.styles'
+import { db } from '../../../utils/firebase'
 
-export function RestaurantScreen (props){
-    const { navigation } = props;
-    const [currentUser, setCurrentUser] = useState(null)
-
+export function RestaurantScreen(props) {
+    const { route } = props;
+    const [restaurant, setRestaurant] = useState(null)
     useEffect(() => {
-        const auth = getAuth();
-      onAuthStateChanged(auth, (user)=>{
-        setCurrentUser(user)
-      })
-    }, [])
+        setRestaurant(null);
+        onSnapshot(doc(db,"restaurants", route.params.id), (doc) =>{
+            setRestaurant(doc.data());
+        })
+    }, [route.params.id])
     
-    const goToAddRestaurant = () =>{
-        navigation.navigate(screen.restaurant.addRestaurant)
-    }
     return (
-        <View style={styles.content}>
-            <Text>Estamos en la screen Restaurants</Text>
-            {
-                currentUser && (
-                    <Icon
-                        reverse
-                        type="material-community"
-                        name="plus"
-                        color="#00a68c"
-                        containerStyle={styles.btnContainer}
-                        onPress={() =>{goToAddRestaurant()}}
-                    />
-                )
-            }
+        <View>
+            <Text>RestaurantScreen</Text>
         </View>
-    );
+    )
 }
