@@ -18,28 +18,29 @@ export function FavoritesScreen() {
   }, [])
 
   useEffect(() => {
-    const q = query(
-      collection(db,"favorites"),
-      where("id_user","==",auth.currentUser.uid),
-    )
+    if (hasLogged){
+      const q = query(
+        collection(db,"favorites"),
+        where("id_user","==",auth.currentUser.uid),
+      )
 
-    onSnapshot(q, async (snapshot) =>{
-      let restaurantArray = [];
-      
-      for await (const item of snapshot.docs){
-        const data = item.data()
-        const docRef = doc(db, "restaurants", data.idRestaurant)
-        const docSnap = await getDoc(docRef)
-        const newData = docSnap.data()
-        newData.idFavorite = data.id
-        restaurantArray.push(newData)
-      }
-      setRestaurants(restaurantArray)
-    })
-  }, [])
-  
-
-  if (!hasLogged) return <UserNotLogged/>
+      onSnapshot(q, async (snapshot) =>{
+        let restaurantArray = [];
+        
+        for await (const item of snapshot.docs){
+          const data = item.data()
+          const docRef = doc(db, "restaurants", data.idRestaurant)
+          const docSnap = await getDoc(docRef)
+          const newData = docSnap.data()
+          newData.idFavorite = data.id
+          restaurantArray.push(newData)
+        }
+        setRestaurants(restaurantArray)
+      })
+    }
+  }, [hasLogged])
+ 
+  if (!hasLogged) return <UserNotLogged/> 
   if(!restaurants) return <Loading show text="Cargando" />
   if(!restaurants.length) return <NotFoundRestaurant/>
   
